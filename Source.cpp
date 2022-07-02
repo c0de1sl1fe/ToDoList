@@ -10,18 +10,21 @@ private:
     int _id;
     bool _completed;
 public:
-    ToDoItem(std::string name, std::string description)
+    ToDoItem(std::string name, std::string description): _name(name), _description(description), _completed(false)
     {
-        _name = name;
-        _description = description;
         _id = rand() % 100 + 1;
     }
     ToDoItem(): _id(0), _name(""), _description(""), _completed(false){}
     ~ToDoItem() = default;
+
     void setCompleted(bool status) { _completed = status; }
-    bool getCmpleted() { return _completed; }
-    int getId() { return _id; }
-    
+    bool getCompleted() const { return _completed; }
+    int getId() const { return _id; }
+        
+    std::string getName() const { return _name; }
+    void setNmae(std::string name) { _name = name; }
+    std::string getDescription() const { return _description; }
+    void setDescription(std::string description) { _description = description; }
 
 };
 int main()
@@ -29,13 +32,14 @@ int main()
     srand(time(NULL));
     std::string version = "v0.0.1";
     bool exit = false;
-
+    char input_option;
+    int input_id;
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
     todoItems.clear();
 
-    ToDoItem test("Name", "desc");
-    todoItems.push_back(test);
+    //ToDoItem test("Name", "desc");
+    //todoItems.push_back(test);
     while (!exit)
     {
         system("cls");
@@ -43,7 +47,45 @@ int main()
         std::cout << std::endl;
         for (it = todoItems.begin(); it !=todoItems.end(); it++)
         {
+            std::cout << it->getId() << " | " << it->getName() << " | ";
+            it->getCompleted() ? std::cout << "done" : std::cout << "Not done" << std::endl;
+        }
+        if (todoItems.empty())
+        {
+            std::cout << "Add your first task!" << std::endl;
+        }
 
+        std::cout << "Choose one:" << std::endl;
+        std::cout << "[a]dd a new Todo" << std::endl;
+        std::cout << "[c]omplete todo" << std::endl;
+        std::cout << "[q]uit" << std::endl;
+        std::cout << "Choice: ";
+        std::cin >> input_option;
+        if (input_option == 'q')
+        {
+            std::cout << "Have a good one, bye!";
+            // safe to tabel ets
+            exit = true;
+        }
+        else if (input_option == 'a')
+        {
+            // scan name description and add to list
+        }
+        else if (input_option == 'c')
+        {
+            std::cout << "Enter id to mark completed: ";
+            std::cin >> input_id;
+            for (it = todoItems.begin(); it != todoItems.end(); it++)
+            {
+                if (it->getId() == input_id)
+                {
+                    it->setCompleted(true);
+                }
+            }
         }
     }
+
+
+
+    return 101;
 }
