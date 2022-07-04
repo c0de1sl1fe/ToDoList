@@ -83,51 +83,93 @@ int main()
             std::cin >> input_string;
             tmp.setName(input_string);
             std::cout << "Enter Description of the ToDos: ";
-            std::getline(std::cin, input_string);
             std::cin.clear();
             std::cin.ignore();
+            std::getline(std::cin, input_string);
             tmp.setDescription(input_string);
 
             todoItems.push_back(tmp);
         }
         else if (input_option == 'c')
         {
-            std::cout << "Enter id to mark completed: ";
-            std::cin >> input_id;
-            for (it = todoItems.begin(); it != todoItems.end(); it++)
+            if (!todoItems.empty())
             {
-                if (it->getId() == input_id)
+                std::cout << "Enter id to mark completed: ";
+                std::cin >> input_id;
+                for (it = todoItems.begin(); it != todoItems.end(); it++)
                 {
-                    it->setCompleted(true);
-                    found = true;
-                    std::cout << std::endl << "Your ToDo finally complete!" << std::endl;
+                    if (it->getId() == input_id)
+                    {
+                        it->setCompleted(true);
+                        found = true;
+                        std::cout << std::endl << "Your ToDo finally complete!" << std::endl;
+                        system("pause");
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                    system("pause");
                 }
             }
-
-            if (!found)
+            else
             {
-                std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                std::cout << "Empty list, add your first ToDo now!" << std::endl;
             }
         }
         else if (input_option == 'g')
         {
-            std::cout << "Enter id to see description of ToDos: ";
-            std::cin >> input_id;
-            for (it = todoItems.begin(); it != todoItems.end(); it++)
+            if (!todoItems.empty())
             {
-                if (it->getId() == input_id)
+                std::cout << "Enter id to see description of ToDos: ";
+                std::cin >> input_id;
+                for (it = todoItems.begin(); it != todoItems.end(); it++)
                 {
-                    std::cout << "Id:" << it->getId();
-                    std::cout << "Name: " << it->getName();
-                    std::cout << "Status: " << it->getCompleted();
-                    std::cout << "Description" << it->getDescription();      
-                    found = true;
+                    if (it->getId() == input_id)
+                    {
+                        std::cout << std::endl;
+                        std::cout << "Id: " << it->getId() << std::endl;
+                        std::cout << "Name: " << it->getName() << std::endl;
+                        std::cout << "Status: ";
+                        it->getCompleted() ? std::cout << "done" : std::cout << "Not done" << std::endl;
+                        std::cout << "Description: " << it->getDescription() << std::endl << std::endl;
+                        found = true;
+                        system("pause");
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                    system("pause");
                 }
             }
-
-            if (!found)
+            else
             {
-                std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                std::cout << "Empty list, add your first ToDo now!" << std::endl;
+            }
+        }
+        if (input_option == 'e')
+        {
+            if (!todoItems.empty())
+            {
+
+            }
+            else
+            {
+                std::cout << "Empty list, add your first ToDo now!" << std::endl;
+            }
+        }
+        if (input_option == 'e')
+        {
+            if (!todoItems.empty())
+            {
+
+            }
+            else
+            {
+                std::cout << "Empty list, add your first ToDo now!" << std::endl;
             }
         }
     }
