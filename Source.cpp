@@ -10,11 +10,11 @@ private:
     int _id;
     bool _completed;
 public:
-    ToDoItem(std::string name, std::string description): _name(name), _description(description), _completed(false)
+    ToDoItem(std::string name = "", std::string description = "") : _name(name), _description(description), _completed(false)
     {
         _id = rand() % 100 + 1;
     }
-    ToDoItem(): _id(0), _name(""), _description(""), _completed(false){}
+    //ToDoItem(): _id(0), _name(""), _description(""), _completed(false){}
     ~ToDoItem() = default;
 
     void setCompleted(bool status) { _completed = status; }
@@ -22,7 +22,7 @@ public:
     int getId() const { return _id; }
         
     std::string getName() const { return _name; }
-    void setNmae(std::string name) { _name = name; }
+    void setName(std::string name) { _name = name; }
     std::string getDescription() const { return _description; }
     void setDescription(std::string description) { _description = description; }
 
@@ -34,6 +34,7 @@ int main()
     bool exit = false;
     char input_option;
     int input_id;
+    std::string input_string;
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
     todoItems.clear();
@@ -54,10 +55,13 @@ int main()
         {
             std::cout << "Add your first task!" << std::endl;
         }
-
+        std::cout << std::endl << std::endl;
         std::cout << "Choose one:" << std::endl;
         std::cout << "[a]dd a new Todo" << std::endl;
         std::cout << "[c]omplete todo" << std::endl;
+        //std::cout << "[e]dit" << std::endl;
+        //std::cout << "[d]elete" << std::endl;
+        //std::cout << "[q]uit" << std::endl;
         std::cout << "[q]uit" << std::endl;
         std::cout << "Choice: ";
         std::cin >> input_option;
@@ -69,7 +73,21 @@ int main()
         }
         else if (input_option == 'a')
         {
+            ToDoItem tmp;
+
             // scan name description and add to list
+            std::cout << "Enter Title of the ToDos: ";
+            std::cin.clear();
+            std::cin.ignore();
+            std::cin >> input_string;
+            tmp.setName(input_string);
+            std::cout << "Enter Description of the ToDos: ";
+            std::getline(std::cin, input_string);
+            std::cin.clear();
+            std::cin.ignore();
+            tmp.setDescription(input_string);
+
+            todoItems.push_back(tmp);
         }
         else if (input_option == 'c')
         {
