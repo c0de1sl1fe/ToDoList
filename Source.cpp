@@ -38,11 +38,12 @@ int main()
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
     todoItems.clear();
-
+    
     //ToDoItem test("Name", "desc");
     //todoItems.push_back(test);
     while (!exit)
     {
+        bool found = false;
         system("cls");
         std::cout << "ToDo List - " << version << std::endl;
         std::cout << std::endl;
@@ -58,10 +59,10 @@ int main()
         std::cout << std::endl << std::endl;
         std::cout << "Choose one:" << std::endl;
         std::cout << "[a]dd a new Todo" << std::endl;
-        std::cout << "[c]omplete todo" << std::endl;
-        //std::cout << "[e]dit" << std::endl;
-        //std::cout << "[d]elete" << std::endl;
-        //std::cout << "[q]uit" << std::endl;
+        std::cout << "[c]omplete ToDo" << std::endl;
+        std::cout << "[g]et in ToDo" << std::endl;
+        std::cout << "[e]dit ToDo" << std::endl;
+        std::cout << "[d]elete ToDo" << std::endl;
         std::cout << "[q]uit" << std::endl;
         std::cout << "Choice: ";
         std::cin >> input_option;
@@ -98,7 +99,35 @@ int main()
                 if (it->getId() == input_id)
                 {
                     it->setCompleted(true);
+                    found = true;
+                    std::cout << std::endl << "Your ToDo finally complete!" << std::endl;
                 }
+            }
+
+            if (!found)
+            {
+                std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+            }
+        }
+        else if (input_option == 'g')
+        {
+            std::cout << "Enter id to see description of ToDos: ";
+            std::cin >> input_id;
+            for (it = todoItems.begin(); it != todoItems.end(); it++)
+            {
+                if (it->getId() == input_id)
+                {
+                    std::cout << "Id:" << it->getId();
+                    std::cout << "Name: " << it->getName();
+                    std::cout << "Status: " << it->getCompleted();
+                    std::cout << "Description" << it->getDescription();      
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
             }
         }
     }
