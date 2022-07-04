@@ -66,6 +66,7 @@ int main()
         std::cout << "[q]uit" << std::endl;
         std::cout << "Choice: ";
         std::cin >> input_option;
+
         if (input_option == 'q')
         {
             std::cout << "Have a good one, bye!";
@@ -75,7 +76,7 @@ int main()
         else if (input_option == 'a')
         {
             ToDoItem tmp;
-
+            system("cls");
             // scan name description and add to list
             std::cout << "Enter Title of the ToDos: ";
             std::cin.clear();
@@ -96,11 +97,12 @@ int main()
             {
                 std::cout << "Enter id to mark completed: ";
                 std::cin >> input_id;
-                for (it = todoItems.begin(); it != todoItems.end(); it++)
+                std::list<ToDoItem>::iterator it_copy;
+                for (it_copy = todoItems.begin(); it_copy != todoItems.end(); it_copy++)
                 {
-                    if (it->getId() == input_id)
+                    if (it_copy->getId() == input_id)
                     {
-                        it->setCompleted(true);
+                        it_copy->setCompleted(true);
                         found = true;
                         std::cout << std::endl << "Your ToDo finally complete!" << std::endl;
                         system("pause");
@@ -124,16 +126,17 @@ int main()
             {
                 std::cout << "Enter id to see description of ToDos: ";
                 std::cin >> input_id;
-                for (it = todoItems.begin(); it != todoItems.end(); it++)
+                std::list<ToDoItem>::iterator it_get;
+                for (it_get = todoItems.begin(); it_get != todoItems.end(); it_get++)
                 {
-                    if (it->getId() == input_id)
+                    if (it_get->getId() == input_id)
                     {
                         std::cout << std::endl;
-                        std::cout << "Id: " << it->getId() << std::endl;
-                        std::cout << "Name: " << it->getName() << std::endl;
+                        std::cout << "Id: " << it_get->getId() << std::endl;
+                        std::cout << "Name: " << it_get->getName() << std::endl;
+                        std::cout << "Description: " << it_get->getDescription() << std::endl;
                         std::cout << "Status: ";
-                        it->getCompleted() ? std::cout << "done" : std::cout << "Not done" << std::endl;
-                        std::cout << "Description: " << it->getDescription() << std::endl << std::endl;
+                        it_get->getCompleted() ? std::cout << "done" : std::cout << "Not done" << std::endl;
                         found = true;
                         system("pause");
                     }
@@ -152,9 +155,93 @@ int main()
         }
         if (input_option == 'e')
         {
+            
             if (!todoItems.empty())
             {
+                std::cout << "Enter id to mark completed: ";
+                std::cin >> input_id;
+                std::list<ToDoItem>::iterator it_edit;
+                for (it_edit = todoItems.begin(); it_edit != todoItems.end(); it_edit++)
+                {
+                    if (it_edit->getId() == input_id)
+                    {
+                        std::cout << std::endl;
+                        std::cout << it_edit->getId() << " | " << it_edit->getName() << " | ";
+                        it_edit->getCompleted() ? std::cout << "done" : std::cout << "Not done" << std::endl;
 
+                        char input_edit;
+                        std::cout << "What would you like to edit?" << std::endl <<
+                            "[n]ame" << std::endl <<
+                            "[d]scription" << std::endl;
+                        std::cout << "Choice: ";
+                        std::cin >> input_edit;
+                        if (input_edit == 'n')
+                        {
+                            std::cout << "Enter Title of the ToDos: ";
+                            std::cin.clear();
+                            std::cin.ignore();
+                            std::cin >> input_string;
+                            it_edit->setName(input_string);
+                            std::cout << std::endl << "Your ToDo finally edited!" << std::endl;
+                            system("pause");
+                        }
+                        else if (input_edit == 'd')
+                        {
+                            std::cout << "Enter Description of the ToDos: ";
+                            std::cin.clear();
+                            std::cin.ignore();
+                            std::getline(std::cin, input_string);
+                            it_edit->setDescription(input_string);
+                            std::cout << std::endl << "Your ToDo finally edited!" << std::endl;
+                            system("pause");
+                        }
+                        else
+                        {
+                            std::cout << std::endl << "Something went wrong!" << std::endl;
+                            system("pause");
+                        }
+
+                        found = true;
+
+
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                    system("pause");
+                }
+            }
+            else
+            {
+                std::cout << "Empty list, add your first ToDo now!" << std::endl;
+            }
+        }
+        if (input_option == 'd')
+        {
+            
+            if (!todoItems.empty())
+            {
+                std::cout << "Enter id to mark completed: ";
+                std::cin >> input_id;
+                std::list<ToDoItem>::iterator it_del;
+                for (it = todoItems.begin(); it != todoItems.end(); it++)
+                {
+                    if (it->getId() == input_id)
+                    {
+                        it = todoItems.erase(it); // need to fix
+                        found = true;
+                        std::cout << std::endl << "Your ToDo finally delete!" << std::endl;
+                        system("pause");
+                    }
+                }
+
+                if (!found)
+                {
+                    std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                    system("pause");
+                }
             }
             else
             {
