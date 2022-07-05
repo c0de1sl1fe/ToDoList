@@ -223,7 +223,7 @@ int main()
         }
         if (input_option == 'd')
         {
-            mtx.lock();
+            //mtx.lock();
             if (!todoItems.empty())
             {
                 std::cout << "Enter id to mark completed: ";
@@ -256,7 +256,7 @@ int main()
             {
                 std::cout << "Empty list, add your first ToDo now!" << std::endl;
             }
-            mtx.unlock();
+            //mtx.unlock();
         }
         if (input_option == 's')
         {
