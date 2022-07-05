@@ -15,7 +15,6 @@ public:
     {
         _id = rand() % 100 + 1;
     }
-    //ToDoItem(): _id(0), _name(""), _description(""), _completed(false){}
     ~ToDoItem() = default;
 
     void setCompleted(bool status) { _completed = status; }
@@ -31,7 +30,7 @@ public:
 std::mutex mtx;
 int main()
 {
-    srand(time(NULL));
+    srand(time(0));
     std::string version = "v0.0.1";
     bool exit = false;
     char input_option;
@@ -40,9 +39,6 @@ int main()
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
     todoItems.clear();
-    
-    //ToDoItem test("Name", "desc");
-    //todoItems.push_back(test);
     while (!exit)
     {
         bool found = false;
@@ -84,7 +80,7 @@ int main()
             std::cout << "Enter Title of the ToDos: ";
             std::cin.clear();
             std::cin.ignore();
-            std::cin >> input_string;
+            std::getline(std::cin, input_string);
             tmp.setName(input_string);
             std::cout << "Enter Description of the ToDos: ";
             std::cin.clear();
@@ -248,7 +244,7 @@ int main()
 
                 if (!found)
                 {
-                    std::cout << std::endl << "It seems that there's no your ToDo" << std::endl;
+                    std::cout << std::endl << "It seems that there's no your ToDo" << std::endl << std::endl;
                     system("pause");
                 }
             }
