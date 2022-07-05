@@ -2,6 +2,7 @@
 #include <string>
 #include <ctime>
 #include <list>
+#include <mutex>
 class ToDoItem
 {
 private:
@@ -27,6 +28,7 @@ public:
     void setDescription(std::string description) { _description = description; }
 
 };
+std::mutex mtx;
 int main()
 {
     srand(time(NULL));
@@ -63,6 +65,7 @@ int main()
         std::cout << "[g]et in ToDo" << std::endl;
         std::cout << "[e]dit ToDo" << std::endl;
         std::cout << "[d]elete ToDo" << std::endl;
+        std::cout << "[s]ave" << std::endl;
         std::cout << "[q]uit" << std::endl;
         std::cout << "Choice: ";
         std::cin >> input_option;
@@ -220,21 +223,27 @@ int main()
         }
         if (input_option == 'd')
         {
-            
+            mtx.lock();
             if (!todoItems.empty())
             {
                 std::cout << "Enter id to mark completed: ";
                 std::cin >> input_id;
                 std::list<ToDoItem>::iterator it_del;
-                for (it = todoItems.begin(); it != todoItems.end(); it++)
+                int i = 0;
+                for (it_del = todoItems.begin(); it_del != todoItems.end(); it_del++)
                 {
-                    if (it->getId() == input_id)
+                    if (it_del->getId() == input_id)
                     {
-                        it = todoItems.erase(it); // need to fix
+                        //  Idk how to fix this problem, all i see: error(exeption) with iterator, please help <3
+                        //it_del = todoItems.erase(it_del); 
+                        it_del->setName("Deleted");
+                        it_del->setDescription("Deleted");
+                        it_del->setCompleted(true);
                         found = true;
-                        std::cout << std::endl << "Your ToDo finally delete!" << std::endl;
+                        std::cout << std::endl << "Your ToDo finally delete!" << std::endl << std::endl;
                         system("pause");
                     }
+                    i++;
                 }
 
                 if (!found)
@@ -247,8 +256,9 @@ int main()
             {
                 std::cout << "Empty list, add your first ToDo now!" << std::endl;
             }
+            mtx.unlock();
         }
-        if (input_option == 'e')
+        if (input_option == 's')
         {
             if (!todoItems.empty())
             {
