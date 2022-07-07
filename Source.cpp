@@ -28,40 +28,33 @@ public:
     std::string getDescription() const { return _description; }
     void setDescription(std::string description) { _description = description; }
 
-    static void SaveToFile(std::list<ToDoItem> list)
-    {
-
-    }
-    static void ReadFile(std::list<ToDoItem> list)
-    {
-
-    }
 };
 
 void Read(std::list<ToDoItem> &todoItems)
 {
     std::list<ToDoItem>::iterator it;
     std::ifstream file;
-
+    ToDoItem tmp;
     file.open("TodoItem.txt", std::ios::in);
     for (it = todoItems.begin(); it != todoItems.end(); it++)
     {
-        file.read((char*)&(*it), sizeof(*it));
+        file.read((char*)&(tmp), sizeof(tmp));
+        std::cout << tmp.getId() << " | " << tmp.getName() << std::endl;
+        getchar();
     }
     file.close();
 }
-
+// need to add numbers of list with writing and reading to perform good functional!
 void Write(std::list<ToDoItem>& todoItems)
 {
     std::list<ToDoItem>::iterator it;
     std::ofstream file;
 
     file.open("ToDoItem.txt", std::ios::app);
-    ToDoItem tmp;
+
     for (it = todoItems.begin(); it != todoItems.end(); it++)
     {
-        file.write((char*)&(tmp), sizeof(tmp));
-        todoItems.push_back(tmp);
+        file.write((char*)&(*it), sizeof(*it));
     }
     file.close();
 }
@@ -76,8 +69,8 @@ int main()
     std::string input_string;
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
-    Read(todoItems);
     todoItems.clear();
+    Read(todoItems);
     while (!exit)
     {
         bool found = false;
