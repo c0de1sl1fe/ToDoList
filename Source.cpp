@@ -57,9 +57,11 @@ void Write(std::list<ToDoItem>& todoItems)
     std::ofstream file;
 
     file.open("ToDoItem.txt", std::ios::app);
+    ToDoItem tmp;
     for (it = todoItems.begin(); it != todoItems.end(); it++)
     {
-        file.write((char*)&(*it), sizeof(*it));
+        file.write((char*)&(tmp), sizeof(tmp));
+        todoItems.push_back(tmp);
     }
     file.close();
 }
