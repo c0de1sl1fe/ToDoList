@@ -2,7 +2,9 @@
 #include <string>
 #include <ctime>
 #include <list>
-#include <mutex>
+#include <fstream>
+
+
 class ToDoItem
 {
 private:
@@ -26,10 +28,44 @@ public:
     std::string getDescription() const { return _description; }
     void setDescription(std::string description) { _description = description; }
 
+    static void SaveToFile(std::list<ToDoItem> list)
+    {
+
+    }
+    static void ReadFile(std::list<ToDoItem> list)
+    {
+
+    }
 };
-std::mutex mtx;
+
+void Read(std::list<ToDoItem> &todoItems)
+{
+    std::list<ToDoItem>::iterator it;
+    std::ifstream file;
+
+    file.open("TodoItem.txt", std::ios::in);
+    for (it = todoItems.begin(); it != todoItems.end(); it++)
+    {
+        file.read((char*)&(*it), sizeof(*it));
+    }
+    file.close();
+}
+
+void Write(std::list<ToDoItem>& todoItems)
+{
+    std::list<ToDoItem>::iterator it;
+    std::ofstream file;
+
+    file.open("ToDoItem.txt", std::ios::app);
+    for (it = todoItems.begin(); it != todoItems.end(); it++)
+    {
+        file.write((char*)&(*it), sizeof(*it));
+    }
+    file.close();
+}
 int main()
 {
+
     srand(time(0));
     std::string version = "v0.0.1";
     bool exit = false;
@@ -38,6 +74,7 @@ int main()
     std::string input_string;
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
+    Read(todoItems);
     todoItems.clear();
     while (!exit)
     {
@@ -69,6 +106,7 @@ int main()
         if (input_option == 'q')
         {
             std::cout << "Have a good one, bye!";
+            Write(todoItems);
             // safe to tabel ets
             exit = true;
         }
