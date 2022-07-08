@@ -34,16 +34,19 @@ void Read(std::list<ToDoItem> &todoItems)
 {
     std::list<ToDoItem>::iterator it;
     std::ifstream file;
-
-    ToDoItem tmp;
+    // need add tmp before feel list
+    ToDoItem* tmp = new ToDoItem();
     file.open("TodoItem.txt", std::ios::in | std::ios::out);
     while (!file.eof())
     {
-        file.read((char*)&(tmp), sizeof(tmp));
-        //std::cout << tmp.getId() << " | " << tmp.getName() << std::endl;
-        //todoItems.push_back(tmp);
+        file.read((char*)&(*tmp), sizeof(*tmp));
+        std::cout << tmp->getId() << " | " << tmp->getName() << std::endl;
+        std::cout << std::endl;
+
+        todoItems.push_back(*tmp);
 
     }
+    delete tmp;
     file.close();
 }
  
@@ -53,15 +56,14 @@ void Write(std::list<ToDoItem>& todoItems)
 {
     std::list<ToDoItem>::iterator it;
     std::ofstream file;
-
+    // need add first amount of elements
     file.open("ToDoItem.txt", std::ios::app);
-    ToDoItem tmp;
+    
     for (it = todoItems.begin(); it != todoItems.end(); it++)
     {
-        tmp = *it;
-        std::cout << tmp.getId() << " | " << tmp.getName() << std::endl;
-        //file.write((char*)&(*it), sizeof(*it));
-        file.write((char*)&tmp, sizeof(tmp));
+
+        file.write((char*)&(*it), sizeof(*it));
+        //file.write((char*)&tmp, sizeof(tmp));
     }
     file.close();
 }
@@ -78,18 +80,19 @@ int main()
     std::list<ToDoItem> todoItems;
     std::list<ToDoItem>::iterator it;
     todoItems.clear();
-    //Read(todoItems);
-    std::ifstream file;
-    ToDoItem tmp;
-    file.open("TodoItem.txt", std::ios::in | std::ios::out);
-    while (!file.eof())
-    {
-        file.read((char*)&(tmp), sizeof(tmp));
-        //std::cout << tmp.getId() << " | " << tmp.getName() << std::endl;
-        todoItems.push_back(tmp);
+    Read(todoItems);
 
-    }
-    file.close();
+    //std::ifstream file;
+    //ToDoItem tmp;
+    //file.open("TodoItem.txt", std::ios::in | std::ios::out);
+    //while (!file.eof())
+    //{
+    //    file.read((char*)&(tmp), sizeof(tmp));
+    //    //std::cout << tmp.getId() << " | " << tmp.getName() << std::endl;
+    //    todoItems.push_back(tmp);
+    //}
+    //file.close();
+
     while (!exit)
     {
         bool found = false;
@@ -121,7 +124,7 @@ int main()
         {
             std::cout << "Have a good one, bye!";
             Write(todoItems);
-            todoItems.clear();
+            //todoItems.clear();
             // safe to tabel ets
             exit = true;
         }
